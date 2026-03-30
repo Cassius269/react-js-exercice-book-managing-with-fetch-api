@@ -109,66 +109,63 @@ function EditBook({ book, updateBook }) {
   };
 
   return (
-    <section className="mb-5 mt-5">
-      <h3>Formulaire de mise à jour de livre</h3>
-      <form
-        onSubmit={handleSubmit}
-        className="border p-5 rounded-3"
-        action="#"
-        method="POST"
-      >
-        <div className="mb-4">
-          <label className="form-label" htmlFor="title">
-            Titre
-          </label>
-          <input
-            onChange={handleChangeTitle}
-            className="form-control"
-            type="text"
-            name="title"
-            id="title"
-            // value={book.title}
-          />
-          {errors?.title ? <i className="text-danger">{errors.title}</i> : ""}
-        </div>
-        <div className="mb-4">
-          <label className="form-label" htmlFor="author">
-            Auteur
-          </label>
-          <input
-            onChange={handleChangeAuthor}
-            className="form-control"
-            type="text"
-            name="author"
-            id="author"
-            minLength={3}
-            // value={book.author}
-          />
-          {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
-        </div>
-        <div className="mb-4">
-          <label className="form-label" htmlFor="year">
-            Année de publication
-          </label>
-          <input
-            onChange={handleChangeYear}
-            className="form-control"
-            type="date"
-            name="year"
-            id="year"
-          />
-          {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
-        </div>
-        <div className="d-flex gap-5 align-items-end">
-          <input
-            type="submit"
-            className={`btn btn-primary mt-4 `}
-            value={"Mettre à jour"}
-          />
-          {errors?.fetch ? <i className="text-danger ">{errors.fetch}</i> : ""}
-        </div>
-      </form>
-    </section>
+    <form
+      onSubmit={handleSubmit}
+      className="p-5 rounded-3"
+      action="#"
+      method="POST"
+    >
+      <div className="mb-4">
+        <label className="form-label" htmlFor="title">
+          Titre
+        </label>
+        <input
+          onChange={handleChangeTitle}
+          className="form-control"
+          type="text"
+          name="title"
+          id="title"
+          // value={book.title}
+        />
+        {errors?.title ? <i className="text-danger">{errors.title}</i> : ""}
+      </div>
+      <div className="mb-4">
+        <label className="form-label" htmlFor="author">
+          Auteur
+        </label>
+        <input
+          onChange={handleChangeAuthor}
+          className="form-control"
+          type="text"
+          name="author"
+          id="author"
+          minLength={3}
+          // value={book.author}
+        />
+        {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
+      </div>
+      <div className="mb-4">
+        <label className="form-label" htmlFor="year">
+          Année de publication
+        </label>
+        <input
+          onChange={handleChangeYear}
+          className="form-control"
+          type="date"
+          name="year"
+          id="year"
+        />
+        {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
+      </div>
+      <div className="d-flex gap-5 align-items-end">
+        <input
+          type="submit"
+          className={`btn btn-primary mt-4 `}
+          value={"Mettre à jour"}
+        />
+        {errors?.fetch ? <i className="text-danger ">{errors.fetch}</i> : ""}
+      </div>
+    </form>
   );
 }
 

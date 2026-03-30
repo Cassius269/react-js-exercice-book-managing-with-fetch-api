@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Book from "./Book";
 import AddBook from "./AddBook";
 import EditBook from "./EditBook";
+import MyModal from "./MyModal";
 
 function BookManager() {
   // Déclaration de l'état du composant
@@ -56,7 +57,13 @@ function BookManager() {
           {bookList.map(
             (book, index) =>
               book.editable ? (
-                <EditBook key={book._id} book={book} updateBook={updateBook} />
+                <MyModal>
+                  <EditBook
+                    key={book._id}
+                    book={book}
+                    updateBook={updateBook}
+                  />
+                </MyModal>
               ) : (
                 <Book
                   key={book._id || index}
