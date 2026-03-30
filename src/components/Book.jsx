@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Book({ book, deleteBook }) {
+function Book({ book, deleteBook, updateBook }) {
   const [errors, setErrors] = useState([]);
 
   const handleClickDelete = (book) => {
@@ -37,6 +37,12 @@ function Book({ book, deleteBook }) {
   useEffect(() => {
     console.log("erreurs", errors);
   });
+
+  const handleClickUpdate = (book) => {
+    console.log(`Livre à mettre à jour avec ID: ${book._id}`);
+    updateBook({ ...book, editable: true });
+  };
+
   return (
     <li className="card mb-2">
       <article className="card-body p-4">
@@ -44,7 +50,11 @@ function Book({ book, deleteBook }) {
         <p className="card-text">Auteur: {book.author}</p>
         <p className="card-text">Année de publication: {book.year}</p>
         <div className="d-flex gap-4">
-          <button href="#" className="btn btn-secondary text-white">
+          <button
+            onClick={() => handleClickUpdate(book)}
+            href="#"
+            className="btn btn-secondary text-white"
+          >
             Mettre à jour
           </button>
           <button

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import AddBook from "./AddBook";
+import EditBook from "./EditBook";
 
 function BookManager() {
   // Déclaration de l'état du composant
@@ -41,6 +42,9 @@ function BookManager() {
     setBookList(bookList.map((b) => (b._id === book._id ? book : b)));
   };
 
+  useEffect(() => {
+    console.log(bookList);
+  });
   return (
     <>
       <h2>Je suis le composant BookManager</h2>
@@ -49,13 +53,19 @@ function BookManager() {
         <p>Liste vide</p>
       ) : (
         <ul>
-          {bookList.map((b, index) => (
-            <Book
-              key={b._id || index}
-              book={b}
-              deleteBook={deleteBook}
-            /> /* key avec valeur de secours securisé et optimisé : si pas d'id utiliser l'index de la boucle */
-          ))}
+          {bookList.map(
+            (book, index) =>
+              book.editable ? (
+                <EditBook key={book._id} book={book} updateBook={updateBook} />
+              ) : (
+                <Book
+                  key={book._id || index}
+                  book={book}
+                  deleteBook={deleteBook}
+                  updateBook={updateBook}
+                />
+              ) /* key avec valeur de secours securisé et optimisé : si pas d'id utiliser l'index de la boucle */,
+          )}
         </ul>
       )}
     </>
