@@ -38,7 +38,7 @@ function AddBook({ addBook }) {
       };
 
       try {
-        const response = await fetch("https://www.restapi.fr/api/books", {
+        const response = await fetch("https://www.restapif.fr/api/books", {
           method: "POST",
           body: JSON.stringify(payload),
           headers: {
@@ -59,7 +59,7 @@ function AddBook({ addBook }) {
         console.log("Erreur", error);
         setErrors({
           ...errors,
-          fetch: error,
+          fetch: error.message,
         });
       }
     };
@@ -146,8 +146,10 @@ function AddBook({ addBook }) {
           />
           {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
         </div>
-        <input type="submit" className={`btn btn-primary mt-4 `} />
-        {errors?.fetch ? <i>{errors.fetch}</i> : ""}
+        <div className="d-flex gap-5 align-items-end">
+          <input type="submit" className={`btn btn-primary mt-4 `} />
+          {errors?.fetch ? <i className="text-danger ">{errors.fetch}</i> : ""}
+        </div>
       </form>
     </section>
   );
