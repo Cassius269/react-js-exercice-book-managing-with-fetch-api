@@ -31,18 +31,33 @@ function BookManager() {
     setBookList([...bookList, book]);
   };
 
+  // Suppression d'un livre de l'état local de la liste des livres
+  const deleteBook = (_id) => {
+    setBookList(bookList.filter((book) => book._id !== _id));
+  };
+
+  // Mettre à jour un livre dans l'état local du composant pour la liste des livres
+  const updateBook = (book) => {
+    setBookList(bookList.map((b) => (b._id === book._id ? book : b)));
+  };
+
   return (
     <>
       <h2>Je suis le composant BookManager</h2>
       <AddBook addBook={addBook} />
-      <ul>
-        {bookList.map((b, index) => (
-          <Book
-            key={b._id || index}
-            book={b}
-          /> /* key avec valeur de secours securisé et optimisé : si pas d'id utiliser l'index de la boucle */
-        ))}
-      </ul>
+      {bookList.length === 0 ? (
+        <p>Liste vide</p>
+      ) : (
+        <ul>
+          {bookList.map((b, index) => (
+            <Book
+              key={b._id || index}
+              book={b}
+              deleteBook={deleteBook}
+            /> /* key avec valeur de secours securisé et optimisé : si pas d'id utiliser l'index de la boucle */
+          ))}
+        </ul>
+      )}
     </>
   );
 }

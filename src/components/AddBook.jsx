@@ -38,7 +38,7 @@ function AddBook({ addBook }) {
       };
 
       try {
-        const response = await fetch("https://www.restapif.fr/api/books", {
+        const response = await fetch("https://www.restapi.fr/api/books", {
           method: "POST",
           body: JSON.stringify(payload),
           headers: {

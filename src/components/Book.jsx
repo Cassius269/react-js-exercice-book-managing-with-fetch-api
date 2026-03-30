@@ -1,4 +1,42 @@
-function Book({ book }) {
+import { useEffect, useState } from "react";
+
+function Book({ book, deleteBook }) {
+  const [errors, setErrors] = useState([]);
+
+  const handleClickDelete = (book) => {
+    setErrors([]);
+    console.log("Livre à supprimer: ", book);
+
+    // Faire la requête HTTP de type DELETE de suppression d'un livre à l'aide de son ID
+    const deleteBookFromApi = async (_id) => {
+      try {
+        const response = await fetch(
+          `https://www.restapi.fr/api/books/${_id}`,
+          {
+            method: "DELETE",
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          deleteBook(book._id);
+        } else {
+          console.log("Oops, une erreur de suppression de livre");
+          setErrors(["Oops, une erreur de suppression de livre"]);
+        }
+      } catch (error) {
+        console.log(`Erreur : ${error.message}`);
+        setErrors([error.message]);
+      }
+    };
+
+    deleteBookFromApi(book._id);
+  };
+
+  useEffect(() => {
+    console.log("erreurs", errors);
+  });
   return (
     <li className="card mb-2">
       <article className="card-body p-4">
@@ -9,10 +47,21 @@ function Book({ book }) {
           <button href="#" className="btn btn-secondary text-white">
             Mettre à jour
           </button>
-          <button href="#" className="btn btn-danger">
+          <button
+            onClick={() => handleClickDelete(book)}
+            href="#"
+            className="btn btn-danger"
+          >
             Supprimer
           </button>
         </div>
+        <ul className="mt-3">
+          {errors.map((e, index) => (
+            <li key={index} className="text-danger">
+              {e}
+            </li>
+          ))}
+        </ul>
       </article>
     </li>
   );
