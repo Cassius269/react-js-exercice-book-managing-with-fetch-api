@@ -1,11 +1,13 @@
 import { useState } from "react";
 
-function EditBook({ book, updateBook }) {
+function EditBook({ book, updateBook, handleClose }) {
+  console.log(handleClose);
+
   // Déclaration de l'état du composant: état du formulaire et des erreurs de saisie
   const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    year: "",
+    title: book.title ?? "",
+    author: book.author ?? "",
+    year: book.year ?? "",
     editable: false,
   });
 
@@ -57,9 +59,20 @@ function EditBook({ book, updateBook }) {
             editable: false,
           });
 
+          alert("Formulaire soumis");
+
           // Reset
+          setFormData({
+            title: "",
+            author: "",
+            year: "",
+          });
         } else {
           console.log("Oops, une erreur");
+          setErrors({
+            ...errors,
+            fetch: "Oops, une erreur",
+          });
         }
       } catch (error) {
         console.log("Erreur", error);
@@ -80,7 +93,6 @@ function EditBook({ book, updateBook }) {
         author: formData.author,
         year: formData.year,
       });
-      alert("Formulaire soumis");
       console.log("Données formulaire", formData);
     } else {
       return;
@@ -108,6 +120,10 @@ function EditBook({ book, updateBook }) {
     setFormData({ ...formData, year: e.target.value.trim() });
   };
 
+  const handleClickCancel = () => {
+    handleClose();
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -125,7 +141,7 @@ function EditBook({ book, updateBook }) {
           type="text"
           name="title"
           id="title"
-          // value={book.title}
+          value={formData.title}
         />
         {errors?.title ? <i className="text-danger">{errors.title}</i> : ""}
       </div>
@@ -140,7 +156,7 @@ function EditBook({ book, updateBook }) {
           name="author"
           id="author"
           minLength={3}
-          // value={book.author}
+          value={formData.author}
         />
         {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
       </div>
@@ -154,15 +170,25 @@ function EditBook({ book, updateBook }) {
           type="date"
           name="year"
           id="year"
+          value={formData.year}
         />
         {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
       </div>
-      <div className="d-flex gap-5 align-items-end">
-        <input
-          type="submit"
-          className={`btn btn-primary mt-4 `}
-          value={"Mettre à jour"}
-        />
+      <div className="d-flex flex-column gap-3">
+        <div className="d-flex justify-content-between align-items-end">
+          <input
+            type="submit"
+            className={`btn btn-primary mt-4 `}
+            value={"Mettre à jour"}
+          />
+          <button
+            onClick={handleClickCancel}
+            type="button"
+            className="btn btn-secondary text-white"
+          >
+            Annuler
+          </button>
+        </div>
         {errors?.fetch ? <i className="text-danger ">{errors.fetch}</i> : ""}
       </div>
     </form>

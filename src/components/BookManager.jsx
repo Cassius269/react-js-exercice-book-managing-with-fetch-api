@@ -57,12 +57,19 @@ function BookManager() {
           {bookList.map(
             (book, index) =>
               book.editable ? (
-                <MyModal>
-                  <EditBook
-                    key={book._id}
-                    book={book}
-                    updateBook={updateBook}
-                  />
+                <MyModal
+                  key={book._id || index}
+                  book={book}
+                  updateBook={updateBook}
+                >
+                  {({ book, updateBook, handleClose }) => (
+                    <EditBook
+                      key={book._id}
+                      book={book}
+                      updateBook={updateBook}
+                      handleClose={handleClose}
+                    />
+                  )}
                 </MyModal>
               ) : (
                 <Book

@@ -51,9 +51,20 @@ function AddBook({ addBook }) {
           console.log(data);
           addBook(data);
 
+          alert("Formulaire soumis");
+
           // Reset
+          setFormData({
+            title: "",
+            author: "",
+            year: "",
+          });
         } else {
           console.log("Oops, une erreur");
+          setErrors({
+            ...errors,
+            fetch: "Oops, une erreur",
+          });
         }
       } catch (error) {
         console.log("Erreur", error);
@@ -69,7 +80,6 @@ function AddBook({ addBook }) {
     if (validate()) {
       // s'il n'y pas d'erreur, soumettre le formulaires
       registerBookInAPI();
-      alert("Formulaire soumis");
       console.log("Données formulaire", formData);
     } else {
       return;
@@ -116,6 +126,7 @@ function AddBook({ addBook }) {
             type="text"
             name="title"
             id="title"
+            value={formData.title}
           />
           {errors?.title ? <i className="text-danger">{errors.title}</i> : ""}
         </div>
@@ -130,6 +141,7 @@ function AddBook({ addBook }) {
             name="author"
             id="author"
             minLength={3}
+            value={formData.author}
           />
           {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
         </div>
@@ -143,6 +155,7 @@ function AddBook({ addBook }) {
             type="date"
             name="year"
             id="year"
+            value={formData.year}
           />
           {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
         </div>
