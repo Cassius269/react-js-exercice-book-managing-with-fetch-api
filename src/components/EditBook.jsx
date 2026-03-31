@@ -1,13 +1,15 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function EditBook({ book, updateBook, handleClose }) {
-  console.log(handleClose);
-
+  // console.log(handleClose);
+  console.log(book.year);
   // Déclaration de l'état du composant: état du formulaire et des erreurs de saisie
   const [formData, setFormData] = useState({
     title: book.title ?? "",
     author: book.author ?? "",
-    year: book.year ?? "",
+    year: book.year ? new Date(book.year, 0, 1) : null,
     editable: false,
   });
 
@@ -56,6 +58,7 @@ function EditBook({ book, updateBook, handleClose }) {
             ...book,
             title: formData.title,
             author: formData.author,
+            year: formData.year,
             editable: false,
           });
 
@@ -91,7 +94,7 @@ function EditBook({ book, updateBook, handleClose }) {
         ...book,
         title: formData.title,
         author: formData.author,
-        year: formData.year,
+        year: new Date(formData.year).getFullYear(),
       });
       console.log("Données formulaire", formData);
     } else {
@@ -114,11 +117,14 @@ function EditBook({ book, updateBook, handleClose }) {
     setFormData({ ...formData, author: e.target.value });
   };
 
-  const handleChangeYear = (e) => {
-    console.log("Valeur input année de sortie : ", e.target.value);
-
-    setFormData({ ...formData, year: e.target.value.trim() });
+  const handleChangeDatePicker = (date) => {
+    setFormData({ ...formData, year: date });
+    console.log("Valeur input année de sortie : ", formData.year);
   };
+
+  // useEffect(() => {
+  //   console.log(formData.year);
+  // }, [formData.year]);
 
   const handleClickCancel = () => {
     handleClose();
@@ -160,17 +166,16 @@ function EditBook({ book, updateBook, handleClose }) {
         />
         {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
       </div>
-      <div className="mb-4">
-        <label className="form-label" htmlFor="year">
+      <div className="d-flex flex-column mb-4">
+        <label className="form-label mb-2" htmlFor="year">
           Année de publication
         </label>
-        <input
-          onChange={handleChangeYear}
-          className="form-control"
-          type="date"
-          name="year"
+        <DatePicker
           id="year"
-          value={formData.year}
+          onChange={(date) => handleChangeDatePicker(date)}
+          selected={formData.year}
+          showYearPicker
+          dateFormat={"yyyy"}
         />
         {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
       </div>

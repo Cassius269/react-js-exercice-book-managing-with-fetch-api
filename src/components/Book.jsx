@@ -48,7 +48,10 @@ function Book({ book, deleteBook, updateBook }) {
       <article className="card-body p-4">
         <h5 className="card-title fs-5">{book.title}</h5>
         <p className="card-text">Auteur: {book.author}</p>
-        <p className="card-text">Année de publication: {book.year}</p>
+        <p className="card-text">
+          Année de publication:{" "}
+          {book.year instanceof Date ? book.year.getFullYear() : book.year}
+        </p>
         <div className="d-flex gap-4">
           <button
             onClick={() => handleClickUpdate(book)}

@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Book from "./Book";
 
 function AddBook({ addBook }) {
   // Déclaration de l'état du composant: état du formulaire et des erreurs de saisie
   const [formData, setFormData] = useState({
     title: "",
     author: "",
-    year: "",
+    year: new Date().getFullYear() ?? "",
   });
 
   const [errors, setErrors] = useState({
@@ -101,11 +104,18 @@ function AddBook({ addBook }) {
     setFormData({ ...formData, author: e.target.value });
   };
 
-  const handleChangeYear = (e) => {
-    console.log("Valeur input année de sortie : ", e.target.value);
-
-    setFormData({ ...formData, year: e.target.value.trim() });
+  const handleChangeDatePicker = (date) => {
+    // setFormData({ ...formData, year: date });
+    setFormData({
+      ...formData,
+      year: date,
+    });
+    console.log("Valeur input année de sortie : ", formData.year);
   };
+
+  useEffect(() => {
+    console.log(formData.year);
+  }, [formData.year]);
 
   return (
     <section className="mb-5 mt-5">
@@ -145,20 +155,20 @@ function AddBook({ addBook }) {
           />
           {errors?.author ? <i className="text-danger">{errors.author}</i> : ""}
         </div>
-        <div className="mb-4">
-          <label className="form-label" htmlFor="year">
+        <div className="d-flex flex-column mb-4">
+          <label className="form-label mb-2" htmlFor="year">
             Année de publication
           </label>
-          <input
-            onChange={handleChangeYear}
-            className="form-control"
-            type="date"
-            name="year"
+          <DatePicker
             id="year"
-            value={formData.year}
+            onChange={(date) => handleChangeDatePicker(date)}
+            selected={formData.year}
+            showYearPicker
+            dateFormat={"yyyy"}
           />
           {errors?.year ? <i className="text-danger">{errors.year}</i> : ""}
         </div>
+
         <div className="d-flex gap-5 align-items-end">
           <input type="submit" className={`btn btn-primary mt-4 `} />
           {errors?.fetch ? <i className="text-danger ">{errors.fetch}</i> : ""}
